@@ -1,0 +1,701 @@
+/* google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+html, body {
+    background-color: #131313;
+    font-family: "Inter", sans-serif;
+    padding: 10px 60px;
+    margin: 0;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    height: auto;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 18px;
+    gap: 10px;
+}
+
+.titleButton {
+    border-radius: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.titleButton:hover {
+    background-color: #222222;
+}
+
+.titleButton h1 {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    color: #e3e3e3;
+}
+
+/* searchbar + filter */
+.searchContainer{
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    padding: 8px 14px;
+    background: #222222;
+    border-radius: 50px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.searchContainer input{
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #e3e3e3;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    outline: none;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+}
+
+.searchContainer input::placeholder{
+    color: #c4c7c5;
+}
+
+.searchContainer select{
+    background-color: transparent;
+    font-family: "Inter", sans-serif;
+    color: #c4c7c5;
+    border: none;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    min-width: 140px;
+}
+
+.searchContainer select::-ms-expand{
+    display: none;
+}
+
+.searchContainer:hover{
+    border-color: #222222;
+}
+
+.searchContainer select:hover{
+    /* background-color:#444746; */
+    background-color: #303030;
+}
+
+/* selecteur custom */
+.customSelect {
+    position: relative;
+    min-width: 150px;
+}
+
+.customSelectTrigger {
+    background-color: transparent;
+    font-family: "Inter", sans-serif;
+    color: #c4c7c5;
+    border: none;
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.customSelectTrigger:hover {
+    background-color: #303030;
+}
+
+.customSelectStatusLabel {
+    /* font-weight: bold; */
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.customSelectArrow {
+    transition: transform 0.2s ease;
+}
+
+.customSelectArrow.rotate {
+    transform: rotate(180deg);
+}
+
+.customSelectDropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding: 8px;
+    background-color: #1b1b1b;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1000;
+    min-width: 150px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.295);   
+}
+
+.customSelectOption {
+    padding: 12px 16px;
+    color: #c4c7c5;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+.customSelectOption:hover {
+    background-color: #303030;
+}
+
+.customSelectOption.active {
+    background-color: #2a2a2a;
+    /* font-weight: bold; */
+    font-weight: 600;
+}
+
+.customSelectOption.active:hover {
+    background-color: #353535;
+}
+/*  */
+
+.SeparatorV {
+    width:1px;
+    height:26px;
+    background:#c4c7c5;
+    opacity:0.25;
+    margin:0 12px;
+    border-radius:1px;
+}
+
+/*  */
+.defaultButton {
+    background-color: transparent;
+    color: black;
+    padding: 8px 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.defaultButton:hover {
+    background-color: #222222;
+}
+
+/* prompts design*/
+.addTaskPrompt, .editTaskPrompt, .deleteTaskPrompt, .creditPrompt {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.PromptContainer {
+    text-align: left;
+    background-color: #222222;
+    border-radius: 40px;
+    padding: 25px 25px;
+    width: 425px;
+}
+
+.PromptHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+#infoIcon, #deleteIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: #004a77;
+}
+
+#infoIcon svg path, #deleteIcon svg path {
+    fill: #c2e7ff;
+}
+
+#creditIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: #004a77;
+}
+
+#creditIcon svg path {
+    fill: #c2e7ff;
+}
+
+.PromptTitle {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0;
+    text-align: left;
+    color: #c4c7c5;
+}
+
+.PromptText {
+    font-family: "Inter", sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    margin: 10px 0 25px 0;
+    text-align: left;
+    color: #c4c7c5;
+}
+
+.inputContainer {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.inputContainer label {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #e3e3e3;
+}
+
+.inputContainer input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 20px;
+    border: 1px solid #303030;
+    font-size: 17px;
+    font-family: "Inter", sans-serif;
+    color: #e3e3e3;
+    outline: none;
+    background-color: #1b1b1b;
+    box-sizing: border-box;
+}
+
+.selectContainer {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.selectContainer label {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #e3e3e3;
+}
+
+.selectContainer select, .selectFBContainer select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 20px;
+    border: 1px solid #303030;
+    font-size: 17px;
+    font-family: "Inter", sans-serif;
+    color: #e3e3e3;
+    box-sizing: border-box;
+    appearance: none;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #1b1b1b url('data:image/svg+xml;utf8,<svg fill="%23e3e3e3" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 15px center;
+    background-size: 16px;
+    padding-right: 40px;
+    cursor: pointer;
+}
+
+.textAreaContainer {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: hidden;
+}
+
+.textAreaContainer textarea {
+    width: 100%;
+    height: 180px;
+    padding: 10px 12px;
+    border-radius: 20px;
+    border: 1px solid #303030;
+    font-size: 17px;
+    font-family: "Inter", sans-serif;
+    color: #e3e3e3;
+    background-color: #1b1b1b;
+    box-sizing: border-box;
+    resize: none;
+    outline: none;
+}
+
+.labelContainer {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 5px;
+}
+
+.labelContainer label {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #e3e3e3;
+}
+
+.promptButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    margin-top: 15px;
+}
+
+#promptTaskCancelBtn, #promptCreditCloseBtn{
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    background-color: transparent;
+    border: 2px solid #303030;
+    color: #c4c7c5;
+    padding: 8px 15px;
+    border-radius: 25px;
+}
+
+#promptTaskCancelBtn:hover, #promptCreditCloseBtn:hover {
+    background-color: #303030;
+    cursor: pointer;
+}
+
+#promptTaskAddBtn, #promptTaskSaveBtn, #promptTaskDeleteBtn {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    background-color: #004a77;
+    border: 2px solid #004a77;
+    color: #c2e7ff;
+    padding: 8px 15px;
+    border-radius: 25px;
+}
+
+#promptTaskAddBtn:hover, #promptTaskSaveBtn:hover, #promptTaskDeleteBtn:hover {
+    background-color: #0f5682;
+    border: 2px solid #0f5682;
+    cursor: pointer;
+}
+
+#closeTaskPromptBtn, #closeEditPromptBtn, #closeDeletePromptBtn, #closeCreditPromptBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+#closeTaskPromptBtn:hover, #closeEditPromptBtn:hover, #closeDeletePromptBtn:hover, #closeCreditPromptBtn:hover {
+    cursor: pointer;
+    background-color: #303030;
+}
+
+/* Preview de la tâche dans le prompt de suppression */
+.taskPreview {
+    margin-top: 15px;
+    padding: 12px 15px;
+    background-color: #1b1b1b;
+    border-radius: 15px;
+    border: 1px solid #303030;
+}
+
+.taskPreviewContent h3 {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #e3e3e3;
+    margin: 0 0 8px 0;
+}
+
+.taskPreviewStatus {
+    display: inline-block;
+    padding: 4px 10px;
+    background-color: #004a77;
+    color: #c2e7ff;
+    border-radius: 15px;
+    font-size: 12px;
+    font-family: "Inter", sans-serif;
+    margin: 0;
+}
+
+
+
+/* Task design */
+.tasksContainer {
+    padding: 0 20px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    background-color: transparent;
+}
+.task {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 18px;
+    margin: 0px 0;
+    border-bottom: 1px solid #303030;
+}
+
+.task:hover {
+    border-radius: 18px;
+    background-color: #222222;
+    border-bottom: 1px solid transparent;
+}
+
+/* .taskContent {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0px;
+} */
+
+.taskContent h1 {
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 0 0 0px 0;
+    color: #c4c7c5;
+}
+
+.taskContent p {
+    font-family: "Inter", sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: #e3e3e3;
+    margin: 0px 0;
+}
+
+#taskDesc {
+    margin-bottom: 8px;
+    margin-top: 8px;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.taskContentHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.subTaskContentHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#taskStatus {
+    padding: 6px 12px;
+    background-color: #004a77;
+    color: #c2e7ff;
+    border-radius: 25px;
+    font-size: 14px;
+}
+
+.moreButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.moreButton:hover {
+    background-color: #303030;
+}
+
+/* Dropdown pour modif et delete les tâches */
+.taskActionsDropdown {
+    position: relative;
+}
+
+.taskActionsMenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding: 8px;
+    background-color: #1b1b1b;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1000;
+    min-width: 160px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.295);
+}
+
+.taskActionOption {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    color: #c4c7c5;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 8px;
+    font-family: "Inter", sans-serif;
+}
+
+.taskActionOption:hover {
+    background-color: #303030;
+}
+
+
+
+
+.noTasksMessage h1 {
+    font-family: "Ubuntu", sans-serif;
+    text-align: center;
+    color: #c4c7c5;
+    margin-top: 50px;
+    margin-bottom: 0;
+    font-size: 110px;
+}
+
+.noTasksMessage p {
+    text-align: center;
+    color: #c4c7c5;
+    font-size: 18px;
+    margin-top: 40px;
+}
+
+
+
+/* Credits */
+
+.creditsButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #222222;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* responsive */
+@media (max-width: 1024px) {
+    html, body {
+        padding: 10px 20px;
+    }
+
+    .PromptContainer {
+        width: 380px;
+    }
+}
+
+@media (max-width: 768px) {
+    html, body {
+        padding: 10px 10px;
+    }
+
+    .PromptContainer {
+        width: 380px;
+    }
+
+    #searchIcon {
+        display: none;
+        visibility: hidden;
+    }
+
+    .searchContainer input {
+        padding-left: 12px;
+    }
+
+    .searchContainer {
+        width: 100%;
+    }
+
+    /* #addTaskButton {
+        display: block;
+        margin: 10px auto 0;
+        align-self: center;
+        width: 100%;
+        border-radius: 50px;
+        border: 1px solid #303030;
+    } */
+
+}
+
+
+@media (max-width: 480px) {
+    .SeparatorV {
+        display: none;
+        visibility: hidden;
+    }
+
+    .searchContainer input {
+        min-width: 0;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .defaultButton {
+        border: 1px solid #303030;
+    }
+
+    .PromptContainer {
+        width: 325px;
+        /* border-radius: 16px; */
+    }
+
+    .noTasksMessage h1 {
+        font-size: 80px;
+    }
+
+    .noTasksMessage p {
+        font-size: 16px;
+        margin-top: 30px;
+    }
+}
+

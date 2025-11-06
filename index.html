@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Trello</title>
+</head>
+<body x-data="Trello()">
+    <header>
+        <!-- <div class="titleButton">
+            <h1>TestTitle</h1>
+        </div> -->
+
+        <div class="searchContainer">
+            <svg id="searchIcon" xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#e3e3e3"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+            
+            <input type="text" x-model="searchQuery" placeholder="Rechercher une tâche">
+            
+            <div class="SeparatorV" aria-hidden="true"></div>
+
+            <div class="customSelect" x-data="{ open: false }" @click.away="open = false">
+                <div class="customSelectTrigger" @click="open = !open">
+                    <span class="customSelectStatusLabel" x-text="getStatusLabel(filterStatus)"></span>
+                    <svg class="customSelectArrow" :class="{ 'rotate': open }" xmlns="http://www.w3.org/2000/svg" height="21px" viewBox="0 -960 960 960" width="21px" fill="#c4c7c5"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>
+                </div>
+                <div class="customSelectDropdown" x-show="open" x-transition>
+                    <div class="customSelectOption" :class="{ 'active': filterStatus === 'all' }" @click="filterStatus = 'all'; open = false">Tous les statuts</div>
+                    <div class="customSelectOption" :class="{ 'active': filterStatus === 'todo' }" @click="filterStatus = 'todo'; open = false">À faire</div>
+                    <div class="customSelectOption" :class="{ 'active': filterStatus === 'inprogress' }" @click="filterStatus = 'inprogress'; open = false">En cours</div>
+                    <div class="customSelectOption" :class="{ 'active': filterStatus === 'done' }" @click="filterStatus = 'done'; open = false">Terminé</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ajouter une tâche -->
+        <div class="defaultButton" id="addTaskButton">
+            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#c4c7c5"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+        </div>
+    </header>
+
+    <main>
+        <!-- Prompt pour ajouter une tâche -->
+        <div class="addTaskPrompt">
+            <div class="PromptContainer">
+                <div class="PromptHeader">
+                    <div id="infoIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q65 0 123 19t107 53l-58 59q-38-24-81-37.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160q133 0 226.5-93.5T800-480q0-18-2-36t-6-35l65-65q11 32 17 66t6 70q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-56-216L254-466l56-56 114 114 400-401 56 56-456 457Z"/></svg>
+                    </div>
+                    <div id="closeTaskPromptBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#c4c7c5"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                    </div>
+                </div>
+                <h1 class="PromptTitle">Ajouter une tâche</h1>
+                <p class="PromptText">Veuillez donner un titre, sélectionner un statut et ajouter la description de votre tâche</p>
+                
+                <form @submit.prevent="addTask()">
+                <div class="inputContainer">
+                    <label for="title">Titre</label>
+                    <input type="text" id="inputTitleTask" x-model="newTask.title" placeholder="Titre de la tâche" required>
+                </div>
+
+                <div class="selectContainer">
+                    <label for="status">Statut</label>
+                    <select id="selectCategoryTask" x-model="newTask.status">
+                        <option value="todo">À faire</option>
+                        <option value="inprogress">En cours</option>
+                        <option value="done">Terminé</option>
+                    </select>
+                </div>
+
+                <div class="textAreaContainer">
+                    <div class="labelContainer">
+                        <label for="content">Description</label>
+                    </div>
+                    <textarea id="textAreacontentTask" x-model="newTask.description" placeholder="Description de la tâche" rows="15"></textarea>
+                </div>
+
+                <div class="promptButtonContainer">
+                    <button type="submit" id="promptTaskAddBtn">Ajouter</button>
+                    <button type="button" id="promptTaskCancelBtn" @click="newTask = { title: '', description: '', status: 'todo' }">Annuler</button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Prompt pour modif tâche -->
+        <div class="editTaskPrompt">
+            <div class="PromptContainer">
+                <div class="PromptHeader">
+                    <div id="infoIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q65 0 123 19t107 53l-58 59q-38-24-81-37.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160q133 0 226.5-93.5T800-480q0-18-2-36t-6-35l65-65q11 32 17 66t6 70q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-56-216L254-466l56-56 114 114 400-401 56 56-456 457Z"/></svg>
+                    </div>
+                    <div id="closeEditPromptBtn" @click="cancelEdit()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#c4c7c5"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                    </div>
+                </div>
+                <h1 class="PromptTitle">Modifier une tâche</h1>
+                <p class="PromptText">Modifiez le titre, le statut ou la description de votre tâche</p>
+                
+                <form @submit.prevent="saveEdit()">
+                <div class="inputContainer">
+                    <label for="editTitle">Titre</label>
+                    <input type="text" id="editTitleTask" x-model="editingTask.title" placeholder="Titre de la tâche" required>
+                </div>
+
+                <div class="selectContainer">
+                    <label for="editStatus">Statut</label>
+                    <select id="editCategoryTask" x-model="editingTask.status">
+                        <option value="todo">À faire</option>
+                        <option value="inprogress">En cours</option>
+                        <option value="done">Terminé</option>
+                    </select>
+                </div>
+
+                <div class="textAreaContainer">
+                    <div class="labelContainer">
+                        <label for="editContent">Description</label>
+                    </div>
+                    <textarea id="editAreaContentTask" x-model="editingTask.description" placeholder="Description de la tâche" rows="15"></textarea>
+                </div>
+
+                <div class="promptButtonContainer">
+                    <button type="submit" id="promptTaskSaveBtn">Sauvegarder</button>
+                    <button type="button" id="promptTaskCancelBtn" @click="cancelEdit()">Annuler</button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Prompt pour supprimer une tâche -->
+        <div class="deleteTaskPrompt">
+            <div class="PromptContainer">
+                <div class="PromptHeader">
+                    <div id="deleteIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/></svg>
+                    </div>
+                    <div id="closeDeletePromptBtn" @click="cancelDelete()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#c4c7c5"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                    </div>
+                </div>
+                <h1 class="PromptTitle">Supprimer une tâche</h1>
+                <p class="PromptText">Êtes-vous sûr de vouloir supprimer cette tâche ?</p>
+
+                <div class="promptButtonContainer">
+                    <button type="button" id="promptTaskDeleteBtn" @click="confirmDelete()">Supprimer</button>
+                    <button type="button" id="promptTaskCancelBtn" @click="cancelDelete()">Annuler</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prompt crédits -->
+        <div class="creditPrompt">
+            <div class="PromptContainer">
+                <div class="PromptHeader">
+                    <div id="creditIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-680q-33 0-56.5-23.5T400-760q0-33 23.5-56.5T480-840q33 0 56.5 23.5T560-760q0 33-23.5 56.5T480-680Zm-60 560v-480h120v480H420Z"/></svg>
+                    </div>
+                    <div id="closeCreditPromptBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#c4c7c5"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                    </div>
+                </div>
+                <h1 class="PromptTitle">Crédits</h1>
+                <p class="PromptText">Créé par Hugo Lévêque © 2025<br><br>Icône : https://fonts.google.com/icons<br>Police d'écriture et inspiration UI : https://fonts.google.com</p>
+
+                <div class="promptButtonContainer">
+                    <button type="button" id="promptCreditCloseBtn">Fermer</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tasksContainer">
+            <template x-for="task in filteredTasks()" :key="task.id">
+                <div class="task">
+
+                    <!-- content -->
+                    <div class="taskContent">
+                        <div class="taskContentHeader">
+                            <div class="subTaskContentHeader">
+                                <h1 x-text="task.title"></h1>
+                                <p id="taskStatus" x-text="getStatusLabel(task.status)"></p>
+                            </div>
+                            <div class="taskActionsDropdown" x-data="{ openActions: false }" @click.away="openActions = false">
+                                <div class="moreButton" @click="openActions = !openActions">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#c4c7c5"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
+                                </div>
+                                <div class="taskActionsMenu" x-show="openActions" x-transition>
+                                    <div class="taskActionOption" @click="startEdit(task); openActions = false">
+                                        <span>Modifier</span>
+                                    </div>
+                                    <div class="taskActionOption delete" @click="startDelete(task); openActions = false">
+                                        <span>Supprimer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p id="taskDesc" x-show="task.description" x-text="task.description"></p>
+                    </div>
+
+                </div>
+            </template>
+
+            <!-- placeholder -->
+            <div class="noTasksMessage" x-show="filteredTasks().length === 0">
+                <h1>(·_·)</h1>
+                <p>Aucune tâche n'a pu être trouvé.</p>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="creditsButton">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-680q-33 0-56.5-23.5T400-760q0-33 23.5-56.5T480-840q33 0 56.5 23.5T560-760q0 33-23.5 56.5T480-680Zm-60 560v-480h120v480H420Z"/></svg>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
